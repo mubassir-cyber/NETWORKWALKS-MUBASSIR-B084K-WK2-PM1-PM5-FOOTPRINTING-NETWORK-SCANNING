@@ -76,31 +76,33 @@ All Phase 1 commands were run in Kali Linux inside my lab from Week 1.
 
 WHOIS returned the domain registration record: the registrar, creation and expiry dates, domain status locks, and the name servers. The name servers show which company hosts the site. The owner's details are hidden behind a privacy service, and **DNSSEC is shown as unsigned**.
 
-![whois output](screenshots/01-whois.png)
+![whois output - registration details](screenshots/01-whois-registration-details.png)
+
+![whois output - registrant and registry](screenshots/02-whois-registrant-and-registry.png)
 
 ## Step 2. WhatWeb
 
 WhatWeb fingerprinted the website and identified the CMS, a download-manager plugin, the web server and a JavaScript library, along with their version numbers. It also showed the HTTP to HTTPS redirect.
 
-![whatweb output](screenshots/02-whatweb.png)
+![whatweb output](screenshots/03-whatweb-fingerprint.png)
 
 ## Step 3. Nslookup
 
 Nslookup (using the public DNS server `8.8.8.8`) resolved the domain name to the public IP address of the web server.
 
-![nslookup output](screenshots/03-nslookup.png)
+![nslookup output](screenshots/04-nslookup-ip-resolution.png)
 
 ## Step 4. Curl
 
 `curl -I` returned `HTTP/1.1 200 OK` with a `Server` banner, a cache header, a secure `HttpOnly` cookie, and a `Link` header that points to the WordPress REST API.
 
-![curl output](screenshots/04-curl.png)
+![curl output](screenshots/05-curl-http-headers.png)
 
 ## Step 5. Wafw00f
 
 Wafw00f detected that the site is behind a **ModSecurity (SpiderLabs)** Web Application Firewall.
 
-![wafw00f output](screenshots/05-wafw00f.png)
+![wafw00f output](screenshots/06-wafw00f-waf-detection.png)
 
 ## Step 6. DNSRecon
 
@@ -113,7 +115,7 @@ DNSRecon enumerated the DNS records and showed:
 - A Google site-verification TXT record
 - 8 cPanel `_autodiscover._tcp` SRV records
 
-![dnsrecon output](screenshots/06-dnsrecon.png)
+![dnsrecon output](screenshots/07-dnsrecon-dns-enumeration.png)
 
 ---
 
@@ -125,7 +127,7 @@ All Phase 2 work was done on my own Windows PC and my own LAN.
 
 `ipconfig` showed my Wi-Fi adapter's IPv4 address, subnet mask (`255.255.255.0`) and default gateway. This gave me my LAN subnet in CIDR form, `/24`, which is 256 addresses. The VMware virtual adapters (VMnet1 and VMnet8) were **not** scanned.
 
-![ipconfig output](screenshots/07-ipconfig.png)
+![ipconfig output](screenshots/08-ipconfig-local-network.png)
 
 ## Step 8. Ping scan
 
@@ -144,15 +146,15 @@ The scan used Nmap 7.98, covered **256 IP addresses**, and found **2 live hosts*
 
 > Nmap does not report the MAC address of the machine it runs on. My own MAC address comes from `ipconfig /all` instead.
 
-![Zenmap ping scan](screenshots/08-zenmap-scan.png)
+![Zenmap ping scan](screenshots/09-zenmap-ping-scan.png)
 
 ## Step 9. Network topology
 
 The **Topology** tab shows my machine (`localhost`) in the centre, connected to the two live hosts. I enabled the legend and saved the topology as a PDF, as the practical task required.
 
-![Zenmap topology](screenshots/09-topology.png)
+![Zenmap topology](screenshots/10-zenmap-topology.png)
 
-![Zenmap topology with legend](screenshots/10-topology-legend.png)
+![Zenmap topology with legend](screenshots/11-zenmap-topology-legend.png)
 
 ---
 
@@ -216,16 +218,17 @@ Scope is set in writing before any testing starts, and anything outside it is of
 .
 ├── README.md
 └── screenshots/
-    ├── 01-whois.png
-    ├── 02-whatweb.png
-    ├── 03-nslookup.png
-    ├── 04-curl.png
-    ├── 05-wafw00f.png
-    ├── 06-dnsrecon.png
-    ├── 07-ipconfig.png
-    ├── 08-zenmap-scan.png
-    ├── 09-topology.png
-    └── 10-topology-legend.png
+    ├── 01-whois-registration-details.png
+    ├── 02-whois-registrant-and-registry.png
+    ├── 03-whatweb-fingerprint.png
+    ├── 04-nslookup-ip-resolution.png
+    ├── 05-curl-http-headers.png
+    ├── 06-wafw00f-waf-detection.png
+    ├── 07-dnsrecon-dns-enumeration.png
+    ├── 08-ipconfig-local-network.png
+    ├── 09-zenmap-ping-scan.png
+    ├── 10-zenmap-topology.png
+    └── 11-zenmap-topology-legend.png
 ```
 
 > Sensitive values in the screenshots (cookie value, local IP addresses, MAC address and Windows build number) have been redacted.
